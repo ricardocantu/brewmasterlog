@@ -1,0 +1,78 @@
+@model BrewMasterWebApp.ViewModels.LocationsViewModels.DeleteLocationViewModel
+
+@section scripts{
+    <script src="~/lib/underscore/underscore-min.js"></script>
+    <script src="~/lib/angular/angular.min.js"></script>
+    <script src="~/lib/angular-route/angular-route.min.js"></script>
+    <script src="~/lib/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="~/js/app-locations.js"></script>
+    <script src="~/js/simpleControls.js"></script>
+    <script src="~/js/locationsController.js"></script>
+    <script src="~/js/locationInfoController.js"></script>
+}
+
+@{
+    var title = "Delete Location Error!";
+
+    if (Model.Success)
+    {
+        title = Model.BreweryName;
+    }
+
+    ViewBag.Title = title;
+}
+
+    <!-- Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">
+                @ViewBag.Title <br />
+                <small>
+                    @Model.Message
+                </small>
+            </h2>                      
+        </div>
+    </div>
+    <!-- /.row -->
+@if(!Model.Deleted)
+{
+    <div class="row">
+        <div class="col-xs-6">
+            <form asp-controller="Locations" asp-action="DeleteLocation" method="post">
+                <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input name="LocationId" value="@Model.LocationId" hidden="true" />
+                    <input name="BreweryName" value="@Model.BreweryName" hidden="true" />
+                    <button type="submit" class="btn btn-success">Yes</button>
+                    </div>
+                </div>            
+            </form>
+        </div>
+        <div class="col-xs-6">
+            <a asp-asp-controller="Locations" asp-action="Index">
+                <div class="btn btn-warning">No</div>
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <a asp-asp-controller="Locations" asp-action="Index">
+                <div class="btn btn-default">Return To My Locations</div>
+            </a>
+        </div>
+    </div>
+
+    <hr> 
+    <div class="row" ng-app="app-locations">
+        <div class="col-xs-12">
+            <h3>@(Model.UserFirstName)'s Locations List</h3>
+        </div>
+        <div ng-view></div>
+    </div>
+}
+
+
+

@@ -1,0 +1,36 @@
+@using BrewMasterWebApp.Utilities
+@inject UserManager<BrewMasterUser> UserManager
+@{
+    ViewData["Title"] = "Home Page";
+
+    if(User.Identity.IsAuthenticated)
+    {
+        ViewBag.UserFullName = await Extensions.GetUserFullName(User.Identity.Name,UserManager);
+    }
+}
+
+<div class="container">
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>Brew Master Log</h1>                
+            </div>
+        </div>
+        <div class="row">
+        <div class="col-xs-12">
+            @if (!User.Identity.IsAuthenticated)
+            {   <p>Register to start creating a list of your favorite beers and breweries.</p>
+                <p>You can search a beer by name or brewery and add it to your profile!</p>     
+                <a asp-controller="Account" asp-action="Register" class="btn btn-lg btn-primary">Register Now &raquo;</a>
+            }
+            else
+            {
+                <p>Welcome back @ViewBag.UserFullName!</p>
+                <a asp-controller="Beers" asp-action="Index" class="btn btn-lg btn-default">Beer List &raquo;</a>
+            }            
+        </div>
+        </div>
+      </div>
+
+    </div> <!-- /container -->

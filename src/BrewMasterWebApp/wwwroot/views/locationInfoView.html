@@ -1,0 +1,43 @@
+﻿<div class="text-danger" ng-show="vm.errorMessage">{{ vm.errorMessage }}</div>
+<wait-cursor display-when="vm.isBusy"></wait-cursor>
+<div class="row">
+    <div class="col-xs-12">
+        <a ng-href="#/api/locations" class="btn btn-sm btn-info">&laquo; Back To List</a>
+    </div>
+</div>
+<br>
+<div class="well well-lg">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-md-push-1 col-lg-10 col-lg-push-2">
+            <img class="img-responsive undraggable" src="{{vm.location.brewery.banner}}" alt="{{vm.location.brewery.name}}">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>{{vm.location.name}}</h3>
+            <h4>Website: <a href="{{vm.location.website}}" target="_blank">{{vm.location.brewery.name}}</a></h4>
+            <h4>Established: {{vm.location.brewery.established}}</h4>
+
+            <p>{{vm.location.brewery.description === "N/A" ? "" : vm.location.brewery.description}}</p>
+        </div>
+    </div>    
+    <div class="row text-center">
+        <div class="col-xs-12">
+            <a href="/Locations/DeleteLocation?locationid={{vm.location.idApi}}&breweryname={{vm.location.brewery.name}}">
+                <div class="btn btn-warning">Delete Locattion</div>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row text-center">
+    <div class="col-xs-6">
+        <a href="/Beers/Brewery?breweryid={{vm.location.brewery.idApi}}">
+            <div class="btn btn-info">Browse Beers</div>
+        </a>
+    </div>
+    <div class="col-xs-6">
+        <a href="/Locations/LocationInfo?locationid={{vm.location.idApi}}">
+            <div class="btn btn-success">More Info</div>
+        </a>
+    </div>
+</div>

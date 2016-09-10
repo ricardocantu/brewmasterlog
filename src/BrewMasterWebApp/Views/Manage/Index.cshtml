@@ -1,0 +1,64 @@
+@model IndexViewModel
+@{
+    ViewData["Title"] = "Manage your account";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>User Information</h3>
+        </div>
+    </div>  
+    
+    <div class="row">
+        <div class="col-sm-3">
+            <p><b>Username/Email:</b></p>
+        </div>
+        <div class="col-sm-9">
+            <p>@Model.Email</p>            
+        </div>   
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <p><b>First Name:</b></p>
+        </div>
+        <div class="col-sm-9">
+            <p>@Model.FirstName</p>            
+        </div>   
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <p><b>Last Name:</b></p>
+        </div>
+        <div class="col-sm-9">
+            <p>@Model.LastName</p>            
+        </div>   
+    </div>  
+    <div class="row">
+        <div class="col-sm-3">
+            <p><b>Phone Number:</b></p>
+        </div>
+        <div class="col-sm-9">
+            <p>@Model.PhoneNumber</p>            
+        </div>   
+    </div>
+    <div class="row">
+        <div class="col-sm-12">            
+            <a asp-controller="Manage" asp-action="EditInformation" class="btn btn-default">Edit Information</a>            
+        </div>
+    </div> 
+    <hr>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Password Management</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">            
+            <a asp-controller="Manage" asp-action="ChangePassword" class="btn btn-default">Change Password</a>            
+        </div>
+    </div>
+    
+</div>

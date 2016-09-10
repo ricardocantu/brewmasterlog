@@ -1,0 +1,73 @@
+@model BrewMasterWebApp.ViewModels.BeersViewModels.IndexViewModel
+@{
+    ViewData["Title"] = "Favorite Beers";
+}
+
+@section scripts{
+    <script src="~/lib/underscore/underscore-min.js"></script>
+    <script src="~/lib/angular/angular.min.js"></script>
+    <script src="~/lib/angular-route/angular-route.min.js"></script>
+    <script src="~/lib/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="~/js/app-beers.js"></script>
+    <script src="~/js/simpleControls.js"></script>
+    <script src="~/js/beersController.js"></script>
+    <script src="~/js/beerInfoController.js"></script>
+    <script src="~/js/breweryInfoController.js"></script>
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Search for beers and add them to your list</h3>        
+        </div>    
+    </div>
+
+<form asp-controller="Beers" asp-action="SearchBeer" method="get" class="form-horizontal">  
+    <h4>Search by beer name</h4>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="BeerName" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="BeerName" class="form-control" />
+            <span asp-validation-for="BeerName" class="text-danger"></span>
+        </div>
+    </div>    
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input name="PageNum" value="1" hidden="true" />
+            <button type="submit" class="btn btn-default">Search</button>
+        </div>
+    </div>
+</form>
+<hr>
+<form asp-controller="Beers" asp-action="SearchBrewery" method="get" class="form-horizontal">  
+    <h4>Search by brewery name</h4>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="BreweryName" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="BreweryName" class="form-control" />
+            <span asp-validation-for="BreweryName" class="text-danger"></span>
+        </div>
+    </div>    
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input name="PageNum" value="1" hidden="true" />
+            <button type="submit" class="btn btn-default">Search</button>
+        </div>
+    </div>
+</form>
+    <hr>    
+    <div ng-app="app-beers">
+        <div class="row">
+            <div class="col-xs-12">
+                <h3>@(Model.FirstName)'s Beer List</h3>
+            </div>
+        </div>
+        <div ng-view></div>
+    </div>
+</div>
+

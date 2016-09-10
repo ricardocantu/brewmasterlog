@@ -1,0 +1,105 @@
+@model BrewMasterWebApp.ViewModels.LocationsViewModels.LocationInfoViewModel
+@{
+    var title = string.Empty;
+
+    if (Model.Success)
+    {
+        title = Model.Location.Brewery.Name;
+    }
+    else
+    {
+        title = "Error Finding Location";
+    }
+
+    ViewBag.Title = title;
+}
+    @if (!Model.Success)
+    {
+        <h3>@Model.Message</h3>
+    }
+    else
+    {
+        <br />
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-md-push-2 col-lg-10 col-lg-push-2">
+                <img class="img-responsive undraggable" src="@Model.Location.Brewery.Banner" alt="@Model.Location.Brewery.Name" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-xs-12">
+                <iframe width="100%" height="400px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                    src="@Model.GoogleMapsSrc" allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+        <br>
+        <div class="well well-lg">
+            <div class="row">
+                <div class="col-xs-12">                
+                    <h3>@Model.Location.Name</h3>
+                    <hr>
+                    <h4>Esablished: @Model.Location.Brewery.Established</h4>
+                    @if(Model.Location.Website != "N/A")
+                    {
+                        <h4>Website: <a href="@Model.Location.Website" target="_blank">@Model.Location.Brewery.Name</a></h4>
+                    }
+                    <p>@Model.Location.Brewery.Description</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                @if(Model.Location.StreetAddress != "N/A")
+                {
+                    <h4>Address:</h4>
+                    <p>
+                        @Model.Location.StreetAddress
+                        <br>
+                        @(Model.Location.City != "N/A" ? Model.Location.City + ", " : "")
+                        @(Model.Location.State != "N/A" ? Model.Location.State + ", ": "")
+                        @(Model.Location.PostalCode != "N/A" ? Model.Location.PostalCode : "")
+                        <br>
+                        @(Model.Location.Country != "N/A" ? Model.Location.Country : "")
+                    </p>
+                }
+                @if(Model.Location.PhoneNumber != "N/A")
+                {
+                    <p>
+                        <i class="fa fa-phone"></i>
+                        P: @Model.Location.PhoneNumber
+                    </p>
+                }
+                
+                </div>
+                <div class="col-sm-6">
+                @if(Model.Location.HoursOfOperation != "N/A")
+                {
+                    <h4>Hours:</h4>
+                    <p>
+                        @Model.Location.HoursOfOperation
+                    </p>
+                }
+                @if(Model.Location.LocationType != "N/A")
+                {
+                    <h4>Type:</h4>
+                    <p>
+                        @Model.Location.LocationType
+                    </p>
+                }
+                </div>
+            </div> 
+            <div class="row text-center">
+                <div class="col-xs-6">
+                    <a asp-asp-controller="Locations" asp-action="AddLocation" 
+                        asp-route-locationid="@Model.Location.IdApi"
+                        asp-route-breweryname="@Model.Location.Brewery.Name" 
+                        class="btn btn-success">Add Location</a>
+                </div>
+                <div class="col-xs-6">
+                    <a asp-controller="Beers" asp-action="Brewery" 
+                        asp-route-breweryid="@Model.Location.Brewery.IdApi" 
+                        class="btn btn-info">View Beers</a>
+                </div>    
+            </div>       
+        </div>
+    }

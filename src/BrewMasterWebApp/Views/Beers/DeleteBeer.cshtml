@@ -1,0 +1,79 @@
+@model BrewMasterWebApp.ViewModels.BeersViewModels.DeleteBeerViewModel
+
+@section scripts{
+    <script src="~/lib/underscore/underscore-min.js"></script>
+    <script src="~/lib/angular/angular.min.js"></script>
+    <script src="~/lib/angular-route/angular-route.min.js"></script>
+    <script src="~/lib/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="~/js/app-beers.js"></script>
+    <script src="~/js/simpleControls.js"></script>
+    <script src="~/js/beersController.js"></script>
+    <script src="~/js/beerInfoController.js"></script>
+    <script src="~/js/breweryInfoController.js"></script>
+}
+
+@{
+    var title = "Delete Beer Error!";
+
+    if (Model.Success)
+    {
+        title = Model.BeerName;
+    }
+
+    ViewBag.Title = title;
+}
+
+    <!-- Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">
+                @ViewBag.Title <br />
+                <small>
+                    @Model.Message
+                </small>
+            </h2>                      
+        </div>
+    </div>
+    <!-- /.row -->
+@if(!Model.Deleted)
+{
+    <div class="row">
+        <div class="col-xs-6">
+            <form asp-controller="Beers" asp-action="DeleteBeer" method="post">
+                <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input name="BeerId" value="@Model.BeerId" hidden="true" />
+                    <input name="BeerName" value="@Model.BeerName" hidden="true" />
+                    <button type="submit" class="btn btn-success">Yes</button>
+                    </div>
+                </div>            
+            </form>
+        </div>
+        <div class="col-xs-6">
+            <a asp-asp-controller="Beers" asp-action="Index">
+                <div class="btn btn-warning">No</div>
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <a asp-asp-controller="Beers" asp-action="Index">
+                <div class="btn btn-default">Return To My Beer List Menu</div>
+            </a>
+        </div>
+    </div>
+
+    <hr> 
+    <div class="row" ng-app="app-beers">
+        <div class="col-xs-12">
+            <h3>@(Model.UserFirstName)'s Beer List</h3>
+        </div>
+        <div ng-view></div>
+    </div>
+}
+
+
+

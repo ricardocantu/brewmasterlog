@@ -1,0 +1,34 @@
+@using Microsoft.AspNetCore.Identity
+@using BrewMasterWebApp.Models
+@using BrewMasterWebApp.Utilities
+
+@inject SignInManager<BrewMasterUser> SignInManager
+@inject UserManager<BrewMasterUser> UserManager
+
+@{ 
+    if (User.Identity.IsAuthenticated)
+    {
+        ViewBag.UserFirstName = await Extensions.GetUserFirstName(User.Identity.Name, UserManager);
+    }
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+            <li class="@Extensions.IsActive(ViewContext,"Manage","Index")">
+                <a asp-controller="Manage" asp-action="Index" title="Manage">Hello @ViewBag.UserFirstName!</a>
+            </li>
+            <li>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
+            </li>
+        </ul>
+    </form>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li class="@Extensions.IsActive(ViewContext,"Account","Register")"><a asp-controller="Account" asp-action="Register">Register</a></li>
+        <li class="@Extensions.IsActive(ViewContext,"Account","Login")"><a asp-controller="Account" asp-action="Login">Log in</a></li>
+    </ul>
+}

@@ -1,0 +1,64 @@
+<div class="text-danger" ng-show="vm.errorMessage">{{ vm.errorMessage }}</div>
+    <wait-cursor display-when="vm.isBusy"></wait-cursor>
+<div class="row">
+    <div class="col-xs-12">
+        <a ng-href="#/api/beers" class="btn btn-sm btn-info">&laquo; Back To List</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        {{vm.name}}
+        <h3 class="page-header">
+            {{vm.beer.name}}
+            <br />
+            <small>
+            {{vm.beer.brewery.name}}
+            </small>
+        </h3>
+    </div>
+</div>
+
+<div class="well well-lg">
+    <div class="row">
+        <div class="col-sm-6">
+            <img src="{{vm.beer.label}}" alt="{{vm.beer.name}}" class="img-responsive undraggable" />
+        </div>
+        <div class="col-sm-6">
+            <h3>Description:</h3>
+            <p>{{vm.beer.description}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Details:</h3>
+            <ul>
+                <li>ABV: {{vm.beer.abv}}{{vm.beer.abv === "N/A" ? "" : "%"}}</li>
+            </ul>
+            <ul>
+                <li>IBU: {{vm.beer.ibu}}</li>
+            </ul>
+            <ul>
+                <li>Glass: {{vm.beer.glassName}}</li>
+            </ul>
+            <ul>
+                <li>Is Organic: {{vm.beer.isOrganic}}</li>
+            </ul>
+            <h3>{{vm.beer.availability.name === "N/A" ? "" : "Availability:"}}</h3>
+            <h4>{{vm.beer.availability.name === "N/A" ? "" : vm.beer.availability.name}}</h4>
+            <p>{{vm.beer.availability.description === "N/A" ? "" : vm.beer.availability.description}}</p>
+        </div>
+        <div class="col-sm-6">
+            <h3>Style:</h3>
+            <h4>{{vm.beer.style.name}}</h4>
+            <p>{{vm.beer.style.description}}</p>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-xs-12">
+            <a href="/Beers/DeleteBeer?beerid={{vm.beer.idApi}}&beername={{vm.beer.name}}">
+                <div class="btn btn-warning">Remove From List</div>
+            </a>
+        </div>
+    </div>    
+</div>
+        

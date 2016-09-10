@@ -1,0 +1,88 @@
+@model BrewMasterWebApp.ViewModels.BeersViewModels.BeerInfoViewModel
+
+@{
+    var title = "Beer Information";
+
+    if (Model.Success)
+    {
+        title = Model.Beer.Name;
+    }
+
+    ViewBag.Title = title;
+}
+
+@if (!Model.Success)
+{
+    <p>@Model.Message</p>
+}
+else
+{
+    <br />
+    <div class="row">
+        <div class="col-xs-12">
+            <img class="img-responsive undraggable" src="@Model.Beer.Brewery.Banner" alt="@Model.Beer.Brewery.Name" />
+        </div>
+    </div>
+    <hr />
+    <!-- Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">
+                @ViewBag.Title <br />
+                <small>
+                    @if (Model.Success)
+                {
+                        @Model.Beer.Brewery.Name
+                    }
+                </small>
+            </h3>
+            
+        </div>
+    </div>
+    <!-- /.row -->
+    
+        <div class="well well-lg">
+            <div class="row">
+                <div class="col-sm-6">
+                    <img src="@Model.Beer.Label" alt="@Model.Beer.Name" class="img-responsive undraggable" />
+                </div>
+                <div class="col-sm-6">
+
+                    <h4>Description:</h4>
+                    <p>@Model.Beer.Description</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs12">
+                    <h3>Details:</h3>
+                    <ul>
+                        <li>ABV%: @(Model.Beer.Abv)@(Model.Beer.Abv == "N/A" ? "" : "%")</li>
+                    </ul>
+                    <ul>
+                        <li>IBU: @Model.Beer.Ibu</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-xs-12">
+                    <a asp-controller="Beers" asp-action="AddBeer" asp-route-beerid="@Model.Beer.IdApi" asp-route-beername="@Model.Beer.Name">
+                        <div class="btn btn-success">Add Beer</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row text-center">
+        <div class="col-xs-6">
+            <a asp-asp-controller="Beers" asp-action="Index">
+                <div class="btn btn-default">My Beers</div>
+            </a>
+        </div>
+        <div class="col-xs-6">
+            <a asp-asp-controller="Beers" asp-action="Brewery" asp-route-breweryid="@Model.Beer.Brewery.IdApi">
+                <div class="btn btn-info">Brewery Beers</div>
+            </a>
+        </div>
+    </div>
+
+}

@@ -1,0 +1,71 @@
+<p>{{vm.breweryId}}</p>
+<hr />
+<table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+            <th>
+                <a class="nounderline" href="#/" ng-click="vm.sortType = 'name'; vm.sortReverse = !vm.sortReverse">Name</a>
+                <span ng-show="vm.sortType == 'name' && !vm.sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="vm.sortType == 'name' && vm.sortReverse" class="fa fa-caret-up"></span>
+            </th>            
+            <th>
+                <a class="nounderline" href="#/" ng-click="vm.sortType = 'brewery.name'; vm.sortReverse = !vm.sortReverse">Brewery</a>
+                <span ng-show="vm.sortType == 'brewery.name' && !vm.sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="vm.sortType == 'brewery.name' && vm.sortReverse" class="fa fa-caret-up"></span>
+            </th>
+            <th>
+                <a class="nounderline" href="#/" ng-click="vm.sortType = 'style.shortName'; vm.sortReverse = !vm.sortReverse">Style</a>
+                <span ng-show="vm.sortType == 'style.shortName' && !vm.sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="vm.sortType == 'style.shortName' && vm.sortReverse" class="fa fa-caret-up"></span>
+            </th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="beer in vm.beers | orderBy:vm.sortType:vm.sortReverse | filter:{name: vm.searchBeerName}">
+            
+            <td>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <a class="nounderline" ng-href="#/api/beer/{{beer.idApi}}">
+                            <p>{{ beer.name }}</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                    <a ng-href="#/api/beer/{{beer.idApi}}">
+                        <img src={{beer.icon}} alt={{beer.name}} height="64" width="64">
+                    </a>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-4">
+                    <a class="nounderline" ng-href="#/api/brewery/{{beer.brewery.idApi}}">
+                        {{ beer.brewery.name }}
+                    </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                    <a ng-href="#/api/brewery/{{beer.brewery.idApi}}">
+                        <img src={{beer.brewery.image}} alt={{beer.name}} height="64" width="64">
+                    </a>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-4">
+                        {{ beer.style.shortName }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        {{beer.abv}}{{beer.abv === "N/A" ? "" : "%"}}
+                    </div>
+                </div>
+            </td>            
+        </tr>
+    </table>

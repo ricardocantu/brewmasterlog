@@ -1,0 +1,140 @@
+@model BrewMasterWebApp.ViewModels.LocationsViewModels.SearchLocationViewModel
+@using BrewMasterWebApp.Utilities
+@{
+    ViewBag.Title = "Brewery location search";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <h2>@ViewBag.Title</h2>
+        <h3>
+            You search for
+            <b>"@Extensions.LocationSearch(Model.SearchCity, Model.SearchState)"</b>
+        </h3>
+        <p>@Model.Message</p>
+    </div>
+</div>
+
+@if (Model.Success)
+{
+    <hr />
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var location in Model.Locations)
+                            {
+                                <tr>
+                                    <td>@location.Brewery.Name</td>
+                                    <td>@(location.StreetAddress)<br>@(location.City), @(location.State)</td>
+                                    <td>@location.LocationType</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img class="img-responsive undraggable" src="@location.Brewery.Image" alt="@location.Brewery.Name" width="75" height="75" />
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Locations" asp-action="AddLocation" asp-route-locationid="@location.IdApi" asp-route-breweryname="@location.Brewery.Name">
+                                            <div class="btn btn-sm btn-success">
+                                                Add Location
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td><a asp-controller="Locations" asp-action="LocationInfo" asp-route-locationid="@location.IdApi">
+                                            <div class="btn btn-sm btn-info">
+                                                More Info
+                                            </div>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+                    <!-- TODO: Change this to be done using Angular-->
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <nav>
+                                <ul class="pagination">
+                                    @if (Model.PageNumber == 1)
+                                    {
+                                        <li class="disabled">
+                                            <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a asp-controller="Locations" asp-action="SearchLocation" asp-route-state="@Model.SearchState" asp-route-city="@Model.SearchCity" asp-route-pagenum="@(Model.PageNumber - 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                                        </li>
+                                    }
+                                    @{
+                                        int firstPaginationNum = 1;
+                                        int lastPaginationNum = Model.MaxPageNumber;
+
+                                        if (Model.PageNumber + 6 > Model.MaxPageNumber)
+                                        {
+                                            firstPaginationNum = Model.MaxPageNumber - 5;
+
+                                            if (firstPaginationNum < 1)
+                                            {
+                                                firstPaginationNum = 1;
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            firstPaginationNum = Model.PageNumber;
+
+                                            lastPaginationNum = firstPaginationNum + 5;
+
+                                            if (lastPaginationNum > Model.MaxPageNumber)
+                                            {
+                                                lastPaginationNum = Model.MaxPageNumber;
+
+                                            }
+                                        }
+
+                                        for (int pageNum = firstPaginationNum; pageNum <= lastPaginationNum; pageNum++)
+                                        {
+                                            if (pageNum == Model.PageNumber)
+                                            {
+                                                <li class="active">
+                                                    <a href="#">@pageNum</a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <a asp-controller="Locations" asp-action="SearchLocation" asp-route-state="@Model.SearchState" asp-route-city="@Model.SearchCity" asp-route-pagenum="@pageNum">
+                                                        @pageNum
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
+                                    }
+                                    @if (Model.PageNumber == Model.MaxPageNumber)
+                                    {
+                                        <li class="disabled">
+                                            <a href="#" aria-label="Previous"><span aria-hidden="true">&raquo;</span></a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a asp-controller="Locations" asp-action="SearchLocation" asp-route-state="@Model.SearchState" asp-route-city="@Model.SearchCity" asp-route-pagenum="@(Model.PageNumber + 1)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                                        </li>
+                                    }
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    }

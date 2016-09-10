@@ -1,0 +1,29 @@
+<div class="text-danger" ng-show="vm.errorMessage">{{ vm.errorMessage }}</div>
+<wait-cursor display-when="vm.isBusy"></wait-cursor>
+<div class="row">
+    <div class="col-xs-12">
+        <a ng-href="#/api/beers" class="btn btn-sm btn-info">&laquo; Back To List</a>
+    </div>
+</div>
+<br>
+<div class="well well-lg">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-md-push-1 col-lg-10 col-lg-push-2">
+            <img class="img-responsive undraggable" src="{{vm.brewery.banner}}" alt="{{vm.brewery.name}}">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>{{vm.brewery.name}}</h3>
+            <h4>Website: <a href="{{vm.brewery.website}}" target="_blank">{{vm.brewery.name}}</a></h4>
+            <h4>Established: {{vm.brewery.established}}</h4>
+
+            <p>{{vm.brewery.description === "N/A" ? "" : vm.brewery.description}}</p>
+        </div>
+    </div>
+    <div class="row text-center">
+        <a href="/Beers/Brewery?breweryid={{vm.breweryId}}">
+            <div class="btn btn-info">Browse Beers</div>
+        </a>
+    </div>
+</div>

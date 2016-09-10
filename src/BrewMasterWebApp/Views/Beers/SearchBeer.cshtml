@@ -1,0 +1,140 @@
+@model BrewMasterWebApp.ViewModels.BeersViewModels.SearchBeerViewModel
+
+@{
+    ViewBag.Title = "Search for beer";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <h2>@ViewBag.Title</h2>
+        <h3>
+            You search for
+            <b>"@(Model.SearchName)"</b>
+        </h3>
+        <p>@Model.Message</p>
+    </div>
+</div>
+
+@if (Model.Success)
+{
+    <hr />
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Brewey</th>
+                                <th>Style</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var beer in Model.Beers)
+                            {
+                                <tr>
+                                    <td>@beer.Name</td>
+                                    <td>@beer.Brewery.Name</td>
+                                    <td>@beer.Style.ShortName</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img class="img-responsive undraggable" src="@beer.Icon" alt="@beer.Name" width="75" height="75" />
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Beers" asp-action="AddBeer" asp-route-beerid="@beer.IdApi" asp-route-beername="@beer.Name">
+                                            <div class="btn btn-sm btn-success">
+                                                Add Beer
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td><a asp-controller="Beers" asp-action="BeerInfo" asp-route-beerid="@beer.IdApi">
+                                            <div class="btn btn-sm btn-info">
+                                                More Info
+                                            </div>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <nav>
+                                <ul class="pagination">
+                                    @if (Model.PageNumber == 1)
+                                    {
+                                        <li class="disabled">
+                                            <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a asp-controller="Beers" asp-action="SearchBeer" asp-route-beername="@Model.SearchName" asp-route-pagenum="@(Model.PageNumber - 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                                        </li>
+                                    }
+                                    @{
+                                        int firstPaginationNum = 1;
+                                        int lastPaginationNum = Model.MaxPageNumber;
+
+                                        if (Model.PageNumber + 6 > Model.MaxPageNumber)
+                                        {
+                                            firstPaginationNum = Model.MaxPageNumber - 5;
+
+                                            if (firstPaginationNum < 1)
+                                            {
+                                                firstPaginationNum = 1;
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            firstPaginationNum = Model.PageNumber;
+
+                                            lastPaginationNum = firstPaginationNum + 5;
+
+                                            if (lastPaginationNum > Model.MaxPageNumber)
+                                            {
+                                                lastPaginationNum = Model.MaxPageNumber;
+
+                                            }
+                                        }
+
+                                        for (int pageNum = firstPaginationNum; pageNum <= lastPaginationNum; pageNum++)
+                                        {
+                                            if (pageNum == Model.PageNumber)
+                                            {
+                                                <li class="active">
+                                                    <a href="#">@pageNum</a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <a asp-controller="Beers" asp-action="SearchBeer" asp-route-beername="@Model.SearchName" asp-route-pagenum="@pageNum">
+                                                        @pageNum
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
+                                    }
+                                    @if (Model.PageNumber == Model.MaxPageNumber)
+                                    {
+                                        <li class="disabled">
+                                            <a href="#" aria-label="Previous"><span aria-hidden="true">&raquo;</span></a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a asp-controller="Beers" asp-action="SearchBeer" asp-route-beername="@Model.SearchName" asp-route-pagenum="@(Model.PageNumber + 1)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                                        </li>
+                                    }
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    }

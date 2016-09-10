@@ -1,0 +1,84 @@
+@model BrewMasterWebApp.ViewModels.BeersViewModels.BreweryViewModel
+
+@{
+
+    var title = string.Empty;
+
+    if (Model.Success)
+    {
+        title = Model.Brewery.Name;
+    }
+    else
+    {
+        title = "Error Finding Brewery";
+    }
+
+    ViewBag.Title = title;
+}
+    @if (!Model.Success)
+    {   <div class="row">
+        <div class="col-xs-12">
+            <h3>@Model.Message</h3>
+        </div>
+    </div>
+    }
+    else
+    {
+        <br />
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-md-push-2 col-lg-10 col-lg-push-2">
+                <img class="img-responsive undraggable" src="@Model.Brewery.Banner" alt="@Model.Brewery.Name" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-xs-12">
+                <h3>
+                    @Model.Brewery.Name
+                </h3>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Style</th>
+                            <th>ABV%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var beer in Model.Beers)
+                        {
+                            <tr>
+                                <td>@beer.Name</td>
+                                <td>@beer.Style.ShortName</td>
+                                <td>@(beer.Abv)@(beer.Abv == "N/A" ? "" : "%")</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img class="img-responsive undraggable" src="@beer.Icon" alt="@beer.Name" width="75" height="75" />
+                                </td>
+                                <td>
+                                    <a asp-controller="Beers" asp-action="AddBeer" asp-route-beerid="@beer.IdApi" asp-route-beername="@beer.Name">
+                                        <div class="btn btn-sm btn-success">
+                                            Add Beer
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-controller="Beers" asp-action="BeerInfo" asp-route-beerid="@beer.IdApi">
+                                        <div class="btn btn-sm btn-info">
+                                            More Info
+                                        </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
